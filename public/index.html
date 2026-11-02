@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio Word Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: neon "Miami night" workbench. Player bar + query on top; three panes on one screen —
+   closest words | neighborhood map | English·Español — stacking on smaller screens.
+   A deliberate single dark look so the sunset colors glow on either host theme. */
+:root {
+  color-scheme: dark;
+  --bg: #120a2a;
+  --surface: rgba(32, 20, 74, .8);
+  --surface-solid: #20144a;
+  --ink: #fff6fb;
+  --muted: #c9bfee;
+  --line: rgba(201, 191, 238, .18);
+  --query: #ff3cac;
+  --focus: #4cc9f0;
+  --warn: #ffd23f;
+  --en: #4cc9f0;
+  --es: #ff7a45;
+  --gold: #ffe27a;
+  --sunset: linear-gradient(100deg, #ff6b35 0%, #ffb547 18%, #ff5e8a 38%, #ff3cac 52%, #a95cff 70%, #4cc9f0 86%, #2ee6c8 100%);
+  --font-display: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background:
+    radial-gradient(900px 500px at 8% -10%, rgba(255, 60, 172, .28), transparent 60%),
+    radial-gradient(800px 520px at 100% 0%, rgba(76, 201, 240, .22), transparent 60%),
+    radial-gradient(900px 600px at 50% 110%, rgba(255, 107, 53, .2), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 22px 40px; min-height: 100%;
+}
+.wrap { max-width: 1480px; margin: 0 auto; display: grid; gap: 18px; }
+button { font: inherit; cursor: pointer; }
+:is(button, a, input):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+header { display: grid; gap: 8px; }
+.stripe { height: 6px; border-radius: 999px; background: var(--sunset); box-shadow: 0 0 24px rgba(255, 60, 172, .55); }
+h1 {
+  font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 5vw, 56px); line-height: 1.02; margin: 6px 0 0;
+  background: var(--sunset); -webkit-background-clip: text; background-clip: text; color: transparent; text-wrap: balance;
+}
+.lede { color: var(--muted); margin: 0; max-width: 74ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font: 500 12px var(--font-data); padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); background: rgba(255, 255, 255, .04); }
+
+/* Player bar */
+.player { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.who { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font: 700 16px var(--font-data); color: #1a0b2e; background: var(--sunset); flex: none; }
+.who-name { font: 600 16px var(--font-data); }
+.who-sub { font-size: 12px; color: var(--muted); }
+.linkbtn { border: 0; background: none; color: var(--focus); padding: 2px 0; font-size: 12px; text-decoration: underline; }
+.wallet {
+  display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255,210,63,.22), rgba(255,107,53,.18)); border: 1px solid rgba(255,210,63,.55);
+  box-shadow: 0 0 26px rgba(255,210,63,.25);
+}
+.coin {
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: radial-gradient(circle at 32% 30%, #fff6b0 0 14%, #ffd23f 36%, #f2a516 72%, #c97a06 100%);
+  box-shadow: inset 0 -3px 0 rgba(120,60,0,.35), 0 0 14px rgba(255,210,63,.65);
+  font: 700 15px var(--font-display); color: #7a4300;
+}
+.coin.small { width: 22px; height: 22px; font-size: 11px; }
+.wallet-num { font: 700 24px var(--font-data); color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; }
+.wallet-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.wallet.bump { animation: bump .45s ease; }
+@keyframes bump { 30% { transform: scale(1.12); } 100% { transform: scale(1); } }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; flex: 1 1 260px; }
+.badge { font: 600 11px var(--font-data); padding: 3px 9px; border-radius: 999px; border: 1px dashed var(--line); color: var(--muted); }
+.badge.on { border: 0; color: #1a0b2e; background: var(--c); box-shadow: 0 0 12px color-mix(in srgb, var(--c) 60%, transparent); }
+.sync { font-size: 12px; color: var(--muted); }
+
+.query { display: grid; gap: 10px; }
+.query form { display: flex; gap: 8px; flex-wrap: wrap; }
+.query input {
+  flex: 1 1 260px; min-width: 0; height: 54px; padding: 0 18px; border-radius: 14px; border: 2px solid transparent;
+  background: linear-gradient(var(--surface-solid), var(--surface-solid)) padding-box, var(--sunset) border-box;
+  color: var(--ink); font: 600 19px var(--font-data);
+}
+.query input::placeholder { color: var(--muted); opacity: .8; }
+.query input:focus { outline: none; box-shadow: 0 0 0 4px rgba(76, 201, 240, .35), 0 0 30px rgba(255, 60, 172, .35); }
+.go {
+  height: 54px; padding: 0 24px; border-radius: 14px; border: 0; color: #1a0b2e; font-weight: 700; font-size: 15px;
+  background: var(--sunset); box-shadow: 0 8px 24px rgba(255, 60, 172, .35); transition: transform .15s, box-shadow .15s;
+}
+.go:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(255, 60, 172, .5); }
+.go:disabled { opacity: .5; cursor: wait; }
+.hint { font-size: 13px; color: var(--muted); margin: 0; }
+.hint code { font-family: var(--font-data); color: var(--ink); background: rgba(255, 255, 255, .08); padding: 1px 6px; border-radius: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 0; border-radius: 999px; padding: 6px 14px; font: 600 13px var(--font-data); color: #1a0b2e;
+  background: var(--c); box-shadow: 0 4px 14px color-mix(in srgb, var(--c) 45%, transparent); transition: transform .15s;
+}
+.chip:hover { transform: translateY(-2px) rotate(-1deg); }
+
+.bench { display: grid; grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(280px, 330px); gap: 16px; align-items: start; }
+.p-nn { grid-column: 1; } .p-map { grid-column: 2; } .p-tr { grid-column: 3; }
+@media (max-width: 1220px) {
+  .bench { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .p-map { grid-column: 1 / -1; grid-row: 1; } .p-nn { grid-column: 1; } .p-tr { grid-column: 2; }
+}
+@media (max-width: 760px) {
+  .bench { grid-template-columns: minmax(0, 1fr); }
+  .p-map, .p-nn, .p-tr { grid-column: 1; grid-row: auto; }
+}
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; min-width: 0;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(5, 0, 20, .45);
+}
+.panel h2 { font-family: var(--font-display); font-weight: 400; font-size: 24px; margin: 0; line-height: 1.15; }
+.panel .sub { font-size: 13px; color: var(--muted); margin: 2px 0 12px; }
+.target { font-family: var(--font-data); color: var(--query); font-weight: 600; text-shadow: 0 0 14px rgba(255, 60, 172, .6); }
+.msg { font-size: 14px; color: var(--warn); margin: 0 0 12px; }
+.info { font-size: 13px; color: var(--muted); margin: -4px 0 12px; }
+.info b { color: var(--ink); font-family: var(--font-data); }
+.seg-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-right: 6px; }
+.seg { display: inline-flex; border-radius: 12px; padding: 3px; gap: 2px; background: rgba(0, 0, 0, .3); border: 1px solid var(--line); }
+.seg button { border: 0; background: transparent; color: var(--muted); padding: 6px 12px; border-radius: 9px; font-weight: 700; font-size: 13px; min-height: 34px; }
+.seg button[aria-pressed="true"] { background: var(--sunset); color: #1a0b2e; box-shadow: 0 4px 14px rgba(255, 60, 172, .4); }
+.langsw { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+
+ol.nn { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.row {
+  display: grid; grid-template-columns: 24px minmax(0, 1fr) 50px; gap: 8px; align-items: center;
+  padding: 7px 8px; border-radius: 10px; border: 0; background: transparent; color: var(--ink); width: 100%; text-align: left; transition: background .15s;
+}
+.row:hover { background: color-mix(in srgb, var(--c) 18%, transparent); }
+.rank { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 600 11px var(--font-data); background: var(--c); color: #1a0b2e; box-shadow: 0 0 12px color-mix(in srgb, var(--c) 60%, transparent); }
+.word { font: 600 15px var(--font-data); overflow-wrap: anywhere; display: block; }
+.alt { display: block; font: 400 12px var(--font-data); color: var(--muted); margin-top: 1px; overflow-wrap: anywhere; }
+.bar { display: block; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, .08); overflow: hidden; margin-top: 4px; }
+.bar i { display: block; height: 100%; background: var(--c); box-shadow: 0 0 8px var(--c); }
+.sim { font: 500 13px var(--font-data); text-align: right; color: var(--c); font-variant-numeric: tabular-nums; }
+
+.mapbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 8px; }
+.controls { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+#plot { width: 100%; height: min(64vh, 580px); min-height: 380px; }
+.note { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+
+.langs { display: grid; gap: 10px; margin-bottom: 16px; }
+.lang { position: relative; border-radius: 14px; padding: 12px 14px 12px 16px; overflow: hidden;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c) 26%, transparent), color-mix(in srgb, var(--c) 6%, transparent));
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); }
+.lang::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--c); box-shadow: 0 0 14px var(--c); }
+.lang-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.lang-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--c); }
+.lang-code { font: 600 11px var(--font-data); color: #1a0b2e; background: var(--c); border-radius: 6px; padding: 1px 6px; }
+.lang-word { font-family: var(--font-display); font-size: clamp(26px, 3vw, 34px); line-height: 1.1; margin-top: 4px; overflow-wrap: anywhere; }
+.lang-word.none { font: 400 14px var(--font-body); color: var(--muted); margin-top: 8px; }
+.tr-head { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 6px; }
+.tablewrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); }
+table.nb-tr { width: 100%; border-collapse: collapse; font-size: 13px; }
+.nb-tr th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 8px 10px; background: rgba(0, 0, 0, .25); }
+.nb-tr th.en { color: var(--en); } .nb-tr th.es { color: var(--es); }
+.nb-tr td { padding: 6px 10px; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.nb-tr td:first-child { font-family: var(--font-data); font-weight: 600; }
+.nb-tr td.missing { color: var(--muted); }
+.nb-tr button { border: 0; background: none; color: var(--c); font: inherit; padding: 0; text-align: left; }
+.nb-tr button:hover { text-decoration: underline; }
+.tr-note { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+
+.board ol { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.board li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 8px; align-items: center; font: 500 13px var(--font-data); padding: 4px 6px; border-radius: 8px; }
+.board li.me { background: rgba(255, 60, 172, .18); }
+.board .pos { color: var(--muted); }
+.board .pts { color: var(--gold); font-variant-numeric: tabular-nums; }
+.board .empty { color: var(--muted); font-size: 13px; }
+
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px 18px; }
+summary { cursor: pointer; font-weight: 700; }
+details li { color: var(--muted); font-size: 14px; max-width: 90ch; margin-bottom: 4px; }
+details strong { color: var(--ink); }
+
+/* Username screen */
+.gate { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgba(10, 4, 26, .82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.gate-card { width: min(440px, 100%); border-radius: 22px; padding: 26px; background: var(--surface-solid); border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.6); display: grid; gap: 14px; }
+.gate-card h2 { font-family: var(--font-display); font-weight: 400; font-size: 30px; margin: 0; background: var(--sunset); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.gate-card p { margin: 0; color: var(--muted); }
+.gate-card label { font-size: 13px; font-weight: 600; }
+.gate-card input { height: 50px; border-radius: 12px; border: 2px solid var(--line); background: #150c33; color: var(--ink); font: 600 18px var(--font-data); padding: 0 14px; width: 100%; }
+.gate-card input:focus { outline: none; border-color: var(--focus); }
+.gate-err { color: var(--warn); font-size: 13px; min-height: 1.2em; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px);
+  background: #20144a; border: 1px solid rgba(255,210,63,.6); color: var(--ink); border-radius: 14px; padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.5); opacity: 0; pointer-events: none;
+  transition: opacity .25s, transform .25s; z-index: 50; max-width: calc(100% - 32px); font-weight: 600; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast .gain { font: 700 18px var(--font-data); color: var(--gold); }
+.fly { position: fixed; z-index: 60; pointer-events: none; }
+.loading { color: var(--muted); font-size: 14px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="stripe" aria-hidden="true"></div>
+    <h1>Studio Word Map</h1>
+    <p class="lede">Type an English or Spanish word to find the 10 closest words in general English, using Word2Vec-style GloVe vectors learned from billions of words of Wikipedia and news text. See the neighborhood in 2D or 3D, read it in English and Spanish, and earn coins for every new word you discover.</p>
+    <div class="meta" id="meta"><span class="pill">Loading the model…</span></div>
+  </header>
+
+  <section class="player" aria-label="Your coins">
+    <div class="who">
+      <span class="avatar" id="avatar" aria-hidden="true">?</span>
+      <div><div class="who-name" id="who-name">—</div><div class="who-sub"><button type="button" class="linkbtn" id="switch">Switch user</button> · <span class="sync" id="sync"></span></div></div>
+    </div>
+    <div class="wallet" id="wallet">
+      <span class="coin" aria-hidden="true">S</span>
+      <div><div class="wallet-num" id="coins" aria-live="polite">0</div><div class="wallet-label"><span id="found">0</span> words found</div></div>
+    </div>
+    <div class="badges" id="badges"></div>
+  </section>
+
+  <section class="query" aria-label="Search the model">
+    <form id="form" autocomplete="off">
+      <input id="q" list="vocab" placeholder="Type a word in English or Spanish, e.g. fear or miedo" aria-label="Word to look up" spellcheck="false">
+      <datalist id="vocab"></datalist>
+      <button class="go" id="go" type="submit" disabled>Find 10 closest</button>
+    </form>
+    <p class="hint">Search in <b>English or Spanish</b> (accents optional). Each new word earns <b>10 coins</b>, rare words <b>15</b>. Combine words with <code>+</code> and <code>-</code>, like <code>king - man + woman</code>. Click any word to jump to it.</p>
+    <div class="chips" id="chips" aria-label="Try these words"></div>
+  </section>
+
+  <div class="bench">
+    <section class="panel p-nn" aria-labelledby="nn-title">
+      <h2 id="nn-title">Closest words</h2>
+      <p class="sub">to <span class="target" id="target">—</span>, by cosine similarity</p>
+      <p class="info" id="info" hidden></p>
+      <div class="langsw"><span class="seg-label">Show in</span><span class="seg" role="group" aria-label="Results language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="es" aria-pressed="false">Español</button></span></div>
+      <p class="msg" id="msg" role="status" hidden></p>
+      <ol class="nn" id="nn"><li class="loading">Loading 30,000 English words…</li></ol>
+    </section>
+
+    <section class="panel p-map" aria-labelledby="map-title">
+      <div class="mapbar">
+        <h2 id="map-title">Neighborhood map</h2>
+        <div class="controls">
+          <div><span class="seg-label">View</span><span class="seg" role="group" aria-label="Dimensions"><button type="button" data-dim="2" aria-pressed="true">2D</button><button type="button" data-dim="3" aria-pressed="false">3D</button></span></div>
+          <div><span class="seg-label">Words</span><span class="seg" role="group" aria-label="Neighborhood size"><button type="button" data-k="50" aria-pressed="true">50</button><button type="button" data-k="100" aria-pressed="false">100</button><button type="button" data-k="200" aria-pressed="false">200</button></span></div>
+        </div>
+      </div>
+      <div id="plot" role="img" aria-label="Map of the searched word, its 10 closest words, and the surrounding neighborhood"></div>
+      <p class="note" id="plotnote">Each search redraws the map with PCA over the word and its nearest neighbors, so the layout shows how that neighborhood is organized.</p>
+    </section>
+
+    <section class="panel p-tr" aria-labelledby="tr-title">
+      <h2 id="tr-title">English · Español</h2>
+      <p class="sub"><span class="target" id="tr-target">—</span> in both languages</p>
+      <div class="langs" id="langs"></div>
+      <p class="tr-head">Its 10 closest words</p>
+      <div class="tablewrap">
+        <table class="nb-tr">
+          <thead><tr><th scope="col" class="en">English</th><th scope="col" class="es">Español</th></tr></thead>
+          <tbody id="trbody"></tbody>
+        </table>
+      </div>
+      <p class="tr-note">Spanish comes from an open Wiktionary dictionary and shows each word's most common sense. About 11,700 of the 30,000 English words have an entry.</p>
+      <div class="board" id="board" hidden>
+        <p class="tr-head" style="margin-top:18px">Top players</p>
+        <ol id="board-list"></ol>
+      </div>
+    </section>
+  </div>
+
+  <details>
+    <summary>How this works</summary>
+    <ul>
+      <li><strong>Vectors:</strong> <span id="src"></span>. Every word is a 100-number vector; words used in similar contexts get similar vectors. GloVe is a close cousin of Word2Vec and gives the same kind of word neighborhoods.</li>
+      <li><strong>Closest words:</strong> cosine similarity between your word's vector and all 30,000 others, computed in your browser. <code>+</code> and <code>-</code> add and subtract vectors, so <code>king - man + woman</code> lands near "queen".</li>
+      <li><strong>Spanish:</strong> a Spanish search is translated to English first (miedo → fear), then searched. Translations: <span id="dict"></span>.</li>
+      <li><strong>Map:</strong> PCA over the word and its 50–200 nearest neighbors, in 2D or 3D. Distances on the map are approximate; the list on the left is exact.</li>
+      <li><strong>Coins:</strong> 10 for each word you search for the first time, 15 for rare words (outside the 15,000 most common). They're saved under your username: online for everyone on the published site, or in this browser when the page can't reach the coin server.</li>
+    </ul>
+  </details>
+</div>
+
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="gate-form" autocomplete="off">
+    <h2>Pick a username</h2>
+    <p>Your coins and discovered words are saved under this name. Use the same name next time to keep collecting.</p>
+    <label for="gate-name">Username</label>
+    <input id="gate-name" maxlength="20" placeholder="e.g. angie" spellcheck="false" autocapitalize="none">
+    <div class="gate-err" id="gate-err" role="alert"></div>
+    <button type="submit" class="go">Start exploring</button>
+  </form>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js"></script>
+<script>
+const NEAR_COLORS = ["#ff6b35", "#ff8c42", "#ffb547", "#ffd23f", "#9ef01a", "#3ddc97", "#2ee6c8", "#4cc9f0", "#8f7bff", "#c77dff"];
+const QUERY_COLOR = "#ff3cac";
+const RARE_RANK = 15000;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fold = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+
+let M = null, V = 0, D = 0, vecs = null, index = null, esIndex = null;
+const state = { dim: 2, k: 50, lang: "en", queryIds: null, neighbors: [], cloud: [], hits: [] };
+
+/* ---------------- Model loading ---------------- */
+async function loadModel() {
+  const [vocab, buf] = await Promise.all([
+    fetch("vocab.json").then(r => { if (!r.ok) throw new Error("vocab.json " + r.status); return r.json(); }),
+    // vectors.bin (int8); a base64 copy in vectors.txt is the fallback for hosts that don't serve binary files.
+    fetch("vectors.bin").then(r => { if (!r.ok) throw new Error("vectors.bin " + r.status); return r.arrayBuffer(); })
+      .catch(() => fetch("vectors.txt").then(r => { if (!r.ok) throw new Error("vectors " + r.status); return r.text(); })
+      .then(t => { const s = atob(t.trim()), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u.buffer; })),
+  ]);
+  M = vocab; V = M.words.length; D = M.dim;
+  const q = new Int8Array(buf);
+  vecs = new Float32Array(V * D);
+  for (let i = 0; i < V; i++) {
+    let n = 0; for (let j = 0; j < D; j++) n += q[i * D + j] ** 2; n = Math.sqrt(n) || 1;
+    for (let j = 0; j < D; j++) vecs[i * D + j] = q[i * D + j] / n;
+  }
+  index = new Map(M.words.map((w, i) => [w, i]));
+  esIndex = new Map();
+  for (const [es, i] of Object.entries(M.esSearch)) { if (!esIndex.has(fold(es))) esIndex.set(fold(es), i); }
+  $("meta").innerHTML = ["30,000 English words", "100 dimensions", "GloVe · 6B words", "English · Español"].map(t => `<span class="pill">${t}</span>`).join("");
+  $("src").textContent = M.source; $("dict").textContent = M.dictionary;
+  $("vocab").innerHTML = M.words.slice(0, 8000).map(w => `<option value="${esc(w)}"></option>`).join("");
+  ["fear", "miedo", "bakery", "brand", "logo", "panadería", "coffee", "happy", "miami", "king - man + woman"].forEach((w, k) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = w; b.style.setProperty("--c", NEAR_COLORS[k]);
+    b.addEventListener("click", () => run(w));
+    $("chips").appendChild(b);
+  });
+  $("go").disabled = false;
+}
+
+/* ---------------- Search ---------------- */
+function resolve(w) {
+  if (index.has(w)) return { i: index.get(w), via: "en" };
+  const f = fold(w);
+  if (index.has(f)) return { i: index.get(f), via: "en" };
+  if (esIndex.has(f)) return { i: esIndex.get(f), via: "es" };
+  return null;
+}
+function parse(text) {
+  const parts = text.toLowerCase().trim().match(/[+-]?\s*[^\s+-][^+-]*/g) || [];
+  return parts.map(p => ({ w: p.replace(/^[+-]\s*/, "").trim(), sign: p.trim().startsWith("-") ? -1 : 1 })).filter(t => t.w);
+}
+const label = (i) => state.lang === "es" ? (M.es[i] || M.words[i]) : M.words[i];
+const otherLabel = (i) => state.lang === "es" ? M.words[i] : (M.es[i] || "—");
+
+function run(text, opts = {}) {
+  if (!M) return;
+  const terms = parse(text);
+  if (!terms.length) return;
+  const res = terms.map(t => ({ ...t, r: resolve(t.w) }));
+  const missing = res.filter(t => !t.r).map(t => t.w);
+  const known = res.filter(t => t.r);
+  $("q").value = text;
+  if (!known.length) {
+    $("msg").textContent = `"${missing.join(", ")}" isn't in the 30,000-word English vocabulary or the Spanish dictionary. Check the spelling or try a more common word. The results below are from your previous search.`;
+    $("msg").hidden = false;
+    return;
+  }
+  $("msg").hidden = !missing.length;
+  if (missing.length) $("msg").textContent = `Skipped ${missing.map(m => `"${m}"`).join(", ")}: not found.`;
+  if (!opts.keepLang) setLang(known.every(t => t.r.via === "es") ? "es" : "en", false);
+  const mapped = known.filter(t => t.r.via === "es");
+  $("info").hidden = !mapped.length;
+  if (mapped.length) $("info").innerHTML = mapped.map(t => `<b>${esc(t.w)}</b> → <b>${esc(M.words[t.r.i])}</b>`).join(", ") + " (Spanish → English)";
+
+  const q = new Float32Array(D);
+  for (const t of known) { const o = t.r.i * D; for (let j = 0; j < D; j++) q[j] += t.sign * vecs[o + j]; }
+  let n = 0; for (const x of q) n += x * x; n = Math.sqrt(n) || 1;
+  const used = new Set(known.map(t => t.r.i));
+  const sims = new Float32Array(V);
+  for (let i = 0; i < V; i++) {
+    let s = 0; const o = i * D;
+    for (let j = 0; j < D; j++) s += q[j] * vecs[o + j];
+    sims[i] = used.has(i) ? -9 : s / n;
+  }
+  const order = Array.from({ length: V }, (_, i) => i).sort((a, b) => sims[b] - sims[a]).slice(0, 200);
+  state.queryIds = known.map(t => ({ i: t.r.i, sign: t.sign }));
+  state.hits = [...used];
+  state.neighbors = order.slice(0, 10).map(i => [i, sims[i]]);
+  state.cloud = order.map(i => [i, sims[i]]);
+  state.qvec = q;
+  renderAll();
+  if (!opts.silent) reward([...used]);
+}
+
+function queryText() {
+  return (state.queryIds || []).map((q, k) => (k ? (q.sign < 0 ? " − " : " + ") : (q.sign < 0 ? "− " : "")) + label(q.i)).join("");
+}
+function setLang(lang, rerender = true) {
+  state.lang = lang;
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  if (rerender && state.queryIds) renderAll();
+}
+function renderAll() { renderList(); renderTranslations(); renderPlot(); }
+
+function renderList() {
+  $("target").textContent = queryText();
+  const max = Math.max(...state.neighbors.map(n => n[1]), 0.0001);
+  $("nn").innerHTML = "";
+  state.neighbors.forEach(([i, s], r) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<button type="button" class="row" style="--c:${NEAR_COLORS[r]}" title="Look up ${esc(M.words[i])}">
+        <span class="rank">${r + 1}</span>
+        <span><span class="word" lang="${state.lang}">${esc(label(i))}</span><span class="alt">${esc(otherLabel(i))}</span><span class="bar"><i style="width:${Math.max(0, s / max) * 100}%"></i></span></span>
+        <span class="sim">${s.toFixed(3)}</span></button>`;
+    li.querySelector("button").addEventListener("click", () => run(M.words[i], { keepLang: true }));
+    $("nn").appendChild(li);
+  });
+}
+
+function renderTranslations() {
+  $("tr-target").textContent = queryText();
+  const ids = state.queryIds;
+  const join = (fn) => ids.map((q, k) => (k ? (q.sign < 0 ? " − " : " + ") : (q.sign < 0 ? "− " : "")) + fn(q.i)).join("");
+  const esText = ids.every(q => M.es[q.i]) ? join(i => M.es[i]) : null;
+  $("langs").innerHTML = `
+    <div class="lang" style="--c:var(--en)"><div class="lang-top"><span class="lang-name">English</span><span class="lang-code">EN</span></div>
+      <div class="lang-word" lang="en">${esc(join(i => M.words[i]))}</div></div>
+    <div class="lang" style="--c:var(--es)"><div class="lang-top"><span class="lang-name">Español</span><span class="lang-code">ES</span></div>
+      ${esText ? `<div class="lang-word" lang="es">${esc(esText)}</div>` : `<div class="lang-word none">No entry in the Spanish dictionary for this word.</div>`}</div>`;
+  $("trbody").innerHTML = "";
+  state.neighbors.forEach(([i], r) => {
+    const tr = document.createElement("tr");
+    tr.style.setProperty("--c", NEAR_COLORS[r]);
+    tr.innerHTML = `<td lang="en"><button type="button">${esc(M.words[i])}</button></td>` +
+      (M.es[i] ? `<td lang="es">${esc(M.es[i])}</td>` : `<td class="missing">—</td>`);
+    tr.querySelector("button").addEventListener("click", () => run(M.words[i], { keepLang: true }));
+    $("trbody").appendChild(tr);
+  });
+}
+
+/* PCA of the neighborhood (query + top-k neighbors), via power iteration with deflation. */
+function pca(rows, dims) {
+  const n = rows.length, mean = new Float64Array(D);
+  rows.forEach(r => { for (let j = 0; j < D; j++) mean[j] += r[j] / n; });
+  const X = rows.map(r => Array.from(r, (x, j) => x - mean[j]));
+  const comps = [];
+  for (let c = 0; c < dims; c++) {
+    let v = Array.from({ length: D }, (_, j) => Math.sin(j * 12.9898 + c * 78.233));
+    for (let it = 0; it < 60; it++) {
+      const s = X.map(x => x.reduce((a, xj, j) => a + xj * v[j], 0));
+      const w = new Array(D).fill(0);
+      X.forEach((x, k) => { for (let j = 0; j < D; j++) w[j] += x[j] * s[k]; });
+      for (const p of comps) { const d = w.reduce((a, wj, j) => a + wj * p[j], 0); for (let j = 0; j < D; j++) w[j] -= d * p[j]; }
+      const nn = Math.hypot(...w) || 1; v = w.map(x => x / nn);
+    }
+    comps.push(v);
+  }
+  const out = X.map(x => comps.map(p => x.reduce((a, xj, j) => a + xj * p[j], 0)));
+  const m = Math.max(...out.flat().map(Math.abs)) || 1;
+  return out.map(r => r.map(x => x / m));
+}
+
+function renderPlot() {
+  if (!window.Plotly || !state.queryIds) return;
+  const is3 = state.dim === 3;
+  const cloud = state.cloud.slice(0, state.k);
+  const rows = [state.qvec, ...cloud.map(([i]) => vecs.subarray(i * D, i * D + D))];
+  const P = pca(rows.map(r => Array.from(r)), is3 ? 3 : 2);
+  const qP = P[0], pts = P.slice(1);
+  const near = pts.slice(0, 10), far = pts.slice(10), farIds = cloud.slice(10).map(c => c[0]), nearIds = cloud.slice(0, 10).map(c => c[0]);
+  const xyz = (arr) => ({ x: arr.map(p => p[0]), y: arr.map(p => p[1]), ...(is3 ? { z: arr.map(p => p[2]) } : {}) });
+  const hover = (ids) => ids.map(i => `<b>${esc(M.words[i])}</b>${M.es[i] ? " · " + esc(M.es[i]) : ""}`);
+  const font = { family: "IBM Plex Mono, monospace", color: "#fff6fb", size: 12 };
+  const T = is3 ? "scatter3d" : "scatter";
+  const traces = [
+    { ...xyz(far), type: T, mode: "markers+text", text: farIds.map(i => label(i)), textposition: "top center", hovertext: hover(farIds), hoverinfo: "text", customdata: farIds,
+      textfont: { ...font, size: 10, color: "rgba(201,191,238,.55)" },
+      marker: { size: is3 ? 3 : 6, color: farIds.map((_, k) => `hsla(${280 - k * 1.2}, 90%, 70%, .55)`) } },
+  ];
+  if (state.queryIds.length === 1) near.forEach((p, r) => traces.push({
+    x: [qP[0], p[0]], y: [qP[1], p[1]], ...(is3 ? { z: [qP[2], p[2]] } : {}), type: T, mode: "lines", hoverinfo: "skip",
+    line: { color: NEAR_COLORS[r], width: is3 ? 4 : 2 }, opacity: .8 }));
+  traces.push(
+    { ...xyz(near), type: T, mode: "markers+text", text: nearIds.map(i => label(i)), textposition: "top center", hovertext: hover(nearIds), hoverinfo: "text", customdata: nearIds,
+      textfont: { ...font, size: 13, color: nearIds.map((_, r) => NEAR_COLORS[r]) }, marker: { size: is3 ? 7 : 13, color: NEAR_COLORS, line: { width: is3 ? 0 : 2, color: "#120a2a" } } },
+    { ...xyz([qP]), type: T, mode: "markers+text", text: [queryText()], textposition: "bottom center", hoverinfo: "skip",
+      textfont: { ...font, size: 17, color: QUERY_COLOR }, marker: { size: is3 ? 11 : 20, color: QUERY_COLOR, symbol: "diamond", line: { width: is3 ? 0 : 2, color: "#fff" } } },
+  );
+  const axis = { showgrid: true, gridcolor: "rgba(201,191,238,.12)", zeroline: false, showticklabels: false, title: "", showspikes: false, showbackground: false };
+  Plotly.react("plot", traces, {
+    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font, showlegend: false, margin: { l: 4, r: 4, t: 4, b: 4 },
+    hovermode: "closest", dragmode: is3 ? "orbit" : "pan", hoverlabel: { bgcolor: "#20144a", bordercolor: "#ff3cac", font }, uirevision: String(state.dim),
+    ...(is3 ? { scene: { xaxis: axis, yaxis: axis, zaxis: axis, aspectmode: "cube", bgcolor: "rgba(0,0,0,0)", camera: { eye: { x: 1.5, y: 1.5, z: 1.1 } } } }
+            : { xaxis: axis, yaxis: { ...axis, scaleanchor: "x" } }),
+  }, { responsive: true, displaylogo: false, scrollZoom: true, modeBarButtonsToRemove: ["select2d", "lasso2d", "toImage"] });
+}
+
+/* ---------------- Users & coins ---------------- */
+const BADGES = [
+  { n: 1, name: "First find", c: "#4cc9f0" }, { n: 10, name: "Explorer", c: "#3ddc97" }, { n: 25, name: "Word hunter", c: "#ffd23f" },
+  { n: 50, name: "Collector", c: "#ff7a45" }, { n: 100, name: "Wordsmith", c: "#ff3cac" }, { n: 250, name: "Lexicon legend", c: "#a95cff" },
+];
+const NAME_RE = /^[\p{L}\p{N}_.-]{3,20}$/u;
+const USER_KEY = "word-map-user";
+const localKey = (u) => "word-map-coins:" + u.toLowerCase();
+const user = { name: null, coins: 0, found: 0, words: new Set(), online: false };
+
+const ls = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+};
+async function api(path, opts) {
+  const r = await fetch(path, { headers: { "content-type": "application/json" }, ...opts });
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.status);
+  return r.json();
+}
+function loadLocal(name) {
+  try { const s = JSON.parse(ls.get(localKey(name)) || "null"); return s && typeof s.words === "object" ? s : { words: {} }; } catch (e) { return { words: {} }; }
+}
+function saveLocal() {
+  const rec = loadLocal(user.name); user.words.forEach(w => { if (!(w in rec.words)) rec.words[w] = user.localPts?.[w] || 10; });
+  ls.set(localKey(user.name), JSON.stringify(rec));
+}
+async function signIn(name) {
+  user.name = name; user.words = new Set(); user.localPts = {};
+  ls.set(USER_KEY, name);
+  $("who-name").textContent = name; $("avatar").textContent = name[0].toUpperCase();
+  const local = loadLocal(name);
+  Object.keys(local.words).forEach(w => user.words.add(w));
+  user.localPts = local.words;
+  try {
+    const s = await api("/api/coins?user=" + encodeURIComponent(name));
+    user.online = true;
+    // Push any words found offline, then take the server's totals.
+    const pending = Object.entries(local.words).map(([w, pts]) => ({ w, pts }));
+    const t = pending.length ? await api("/api/coins", { method: "POST", body: JSON.stringify({ user: name, words: pending }) }) : s;
+    user.coins = t.coins; user.found = t.found;
+    $("sync").textContent = "Saved online";
+    loadBoard();
+  } catch (e) {
+    user.online = false;
+    user.coins = Object.values(local.words).reduce((a, b) => a + b, 0); user.found = Object.keys(local.words).length;
+    $("sync").textContent = "Saved in this browser";
+    $("board").hidden = true;
+  }
+  renderWallet();
+}
+function renderWallet() {
+  $("coins").textContent = user.coins.toLocaleString();
+  $("found").textContent = user.found.toLocaleString();
+  $("badges").innerHTML = BADGES.map(b => `<span class="badge${user.found >= b.n ? " on" : ""}" style="--c:${b.c}" title="${b.n} word${b.n > 1 ? "s" : ""}">${b.name}</span>`).join("");
+}
+async function loadBoard() {
+  try {
+    const { players } = await api("/api/coins?leaderboard=1");
+    $("board").hidden = false;
+    $("board-list").innerHTML = players.length ? players.map((p, k) =>
+      `<li class="${p.user.toLowerCase() === (user.name || "").toLowerCase() ? "me" : ""}"><span class="pos">${k + 1}</span><span>${esc(p.user)}</span><span class="pts">${p.coins.toLocaleString()}</span></li>`).join("")
+      : `<li class="empty">No players yet. Be the first!</li>`;
+  } catch (e) { $("board").hidden = true; }
+}
+let toastTimer;
+function toast(html) { const el = $("toast"); el.innerHTML = html; el.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove("show"), 2600); }
+function flyCoins(n) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const from = $("q").getBoundingClientRect(), to = $("wallet").getBoundingClientRect();
+  for (let k = 0; k < Math.min(n, 8); k++) {
+    const c = document.createElement("span"); c.className = "coin small fly"; c.textContent = "S";
+    const x0 = from.left + from.width * (0.3 + Math.random() * 0.4), y0 = from.top + from.height / 2;
+    c.style.left = x0 + "px"; c.style.top = y0 + "px"; document.body.appendChild(c);
+    const dx = to.left + 20 - x0, dy = to.top + 20 - y0;
+    c.animate([{ transform: "translate(0,0) scale(.6)", opacity: 0 },
+      { transform: `translate(${dx * .4 + (Math.random() * 80 - 40)}px, ${dy * .4 - 60}px) scale(1.15)`, opacity: 1, offset: .45 },
+      { transform: `translate(${dx}px, ${dy}px) scale(.7)`, opacity: .2 }], { duration: 800 + k * 70, easing: "cubic-bezier(.3,.7,.3,1)" }).onfinish = () => c.remove();
+  }
+}
+async function reward(ids) {
+  if (!user.name) return;
+  const fresh = ids.map(i => M.words[i]).filter(w => !user.words.has(w));
+  if (!fresh.length) { toast(`<span class="coin small" aria-hidden="true">S</span> Already discovered. Try a new word for more coins.`); return; }
+  const items = fresh.map(w => ({ w, pts: index.get(w) >= RARE_RANK ? 15 : 10 }));
+  const before = user.found;
+  items.forEach(it => { user.words.add(it.w); user.localPts[it.w] = it.pts; });
+  saveLocal();
+  if (user.online) {
+    try { const t = await api("/api/coins", { method: "POST", body: JSON.stringify({ user: user.name, words: items }) }); user.coins = t.coins; user.found = t.found; loadBoard(); }
+    catch (e) { user.online = false; $("sync").textContent = "Saved in this browser (offline)"; user.coins += items.reduce((a, b) => a + b.pts, 0); user.found += items.length; }
+  } else { user.coins += items.reduce((a, b) => a + b.pts, 0); user.found += items.length; }
+  renderWallet();
+  const gain = items.reduce((a, b) => a + b.pts, 0);
+  flyCoins(Math.ceil(gain / 5));
+  const w = $("wallet"); w.classList.remove("bump"); void w.offsetWidth; w.classList.add("bump");
+  const unlocked = BADGES.filter(b => before < b.n && user.found >= b.n);
+  toast(`<span class="coin small" aria-hidden="true">S</span><span class="gain">+${gain}</span><span>New: ${items.map(i => `<b>${esc(i.w)}</b>`).join(", ")}${items.some(i => i.pts === 15) ? " · rare find!" : ""}${unlocked.length ? ` · Badge: ${unlocked.map(b => b.name).join(", ")}` : ""}</span>`);
+}
+
+function openGate() {
+  $("gate").hidden = false; $("gate-err").textContent = ""; $("gate-name").value = user.name || "";
+  setTimeout(() => $("gate-name").focus(), 30);
+}
+$("gate-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = $("gate-name").value.trim();
+  if (!NAME_RE.test(name)) { $("gate-err").textContent = "Use 3–20 letters or numbers (dots, dashes and underscores are OK, no spaces)."; return; }
+  $("gate").hidden = true;
+  await signIn(name);
+});
+$("switch").addEventListener("click", openGate);
+
+/* ---------------- Controls ---------------- */
+document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+document.querySelectorAll("[data-dim]").forEach(b => b.addEventListener("click", () => {
+  state.dim = +b.dataset.dim; document.querySelectorAll("[data-dim]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); renderPlot();
+}));
+document.querySelectorAll("[data-k]").forEach(b => b.addEventListener("click", () => {
+  state.k = +b.dataset.k; document.querySelectorAll("[data-k]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); renderPlot();
+}));
+$("form").addEventListener("submit", (e) => { e.preventDefault(); run($("q").value); });
+
+(async function start() {
+  const saved = ls.get(USER_KEY);
+  if (saved && NAME_RE.test(saved)) signIn(saved); else openGate();
+  try {
+    await loadModel();
+    run("fear", { silent: true });
+    if (window.Plotly) $("plot").on("plotly_click", (e) => { const p = e.points && e.points[0]; if (p && p.customdata != null) run(M.words[p.customdata], { keepLang: true }); });
+    else $("plotnote").textContent = "The map library didn't load. The closest words and translations still work.";
+  } catch (err) {
+    $("nn").innerHTML = `<li class="msg">Couldn't load the word vectors (${esc(err.message)}). Reload the page to try again.</li>`;
+  }
+})();
+</script>
+
+</body>
+</html>
