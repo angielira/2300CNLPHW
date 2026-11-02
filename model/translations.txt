@@ -1,0 +1,746 @@
+# word|german|italian|spanish|english gloss (only for non-English words). "=" means unchanged.
+brand|Marke|marchio|marca
+px|=|=|=
+business|Geschäft|attività|negocio
+components|Komponenten|componenti|componentes
+logo|Logo|logo|logotipo
+content|Inhalt|contenuti|contenido
+social|sozial|social|social
+page|Seite|pagina|página
+free|kostenlos|gratuito|gratis
+text|Text|testo|texto
+design|Design|design|diseño
+media|Medien|media|medios
+colors|Farben|colori|colores
+whatsapp|WhatsApp|WhatsApp|WhatsApp
+primary|primär|primario|primario
+marca|Marke|marchio|=|brand
+posts|Beiträge|post|publicaciones
+instagram|Instagram|Instagram|Instagram
+light|hell|chiaro|claro
+section|Abschnitt|sezione|sección
+component|Komponente|componente|componente
+identity|Identität|identità|identidad
+time|Zeit|tempo|tiempo
+color|Farbe|colore|color
+video|Video|video|video
+check-up|Check-up|check-up|revisión
+small|klein|piccolo|pequeño
+pricing|Preisgestaltung|prezzi|precios
+first|erste|primo|primero
+every|jede|ogni|cada
+name|Name|nome|nombre
+dark|dunkel|scuro|oscuro
+problem|Problem|problema|problema
+customers|Kunden|clienti|clientes
+looks|sieht aus|sembra|se ve
+ui|UI|UI|UI
+post|Beitrag|post|publicación
+businesses|Unternehmen|attività|negocios
+display|Anzeige|visualizzazione|visualización
+spanish|Spanisch|spagnolo|español
+local|lokal|locale|local
+look|Aussehen|aspetto|aspecto
+gradient|Farbverlauf|gradiente|degradado
+custom|individuell|personalizzato|personalizado
+features|Funktionen|funzionalità|funciones
+css|CSS|CSS|CSS
+icons|Symbole|icone|iconos
+research|Recherche|ricerca|investigación
+demo|Demo|demo|demostración
+lead|Interessent|contatto|cliente potencial
+know|wissen|sapere|saber
+system|System|sistema|sistema
+button|Schaltfläche|pulsante|botón
+mobile|mobil|mobile|móvil
+form|Formular|modulo|formulario
+technical|technisch|tecnico|técnico
+florida|Florida|Florida|Florida
+see|sehen|vedere|ver
+product|Produkt|prodotto|producto
+new|neu|nuovo|nuevo
+font|Schriftart|carattere|fuente
+navigation|Navigation|navigazione|navegación
+gratis|kostenlos|gratuito|=|free
+visual|visuell|visivo|visual
+state|Zustand|stato|estado
+south|Süden|sud|sur
+sales|Verkauf|vendite|ventas
+professional|professionell|professionale|profesional
+feature|Funktion|funzionalità|función
+animations|Animationen|animazioni|animaciones
+structure|Struktur|struttura|estructura
+summary|Zusammenfassung|riepilogo|resumen
+owners|Inhaber|proprietari|dueños
+day|Tag|giorno|día
+redes|Netzwerke|reti|=|networks (social media)
+real|echt|reale|real
+sections|Abschnitte|sezioni|secciones
+tailwind|Tailwind|Tailwind|Tailwind
+list|Liste|elenco|lista
+required|erforderlich|obbligatorio|obligatorio
+pain|Schmerz|dolore|dolor
+english|Englisch|inglese|inglés
+month|Monat|mese|mes
+reels|Reels|reel|reels
+card|Karte|scheda|tarjeta
+menu|Menü|menu|menú
+create|erstellen|creare|crear
+hero|Hero-Bereich|sezione hero|sección principal
+scroll|scrollen|scorrere|desplazar
+responsive|responsiv|responsive|adaptable
+large|groß|grande|grande
+mode|Modus|modalità|modo
+start|Start|inizio|inicio
+revisión|Überprüfung|revisione|=|review, check-up
+specific|spezifisch|specifico|específico
+roi|ROI|ROI|ROI
+offer|Angebot|offerta|oferta
+studio|Studio|studio|estudio
+three|drei|tre|tres
+full|voll|pieno|completo
+show|zeigen|mostrare|mostrar
+everything|alles|tutto|todo
+consistent|einheitlich|coerente|coherente
+makeover|Neugestaltung|restyling|renovación
+secondary|sekundär|secondario|secundario
+animated|animiert|animato|animado
+focus|Fokus|focus|enfoque
+images|Bilder|immagini|imágenes
+elements|Elemente|elementi|elementos
+value|Wert|valore|valor
+mes|Monat|mese|=|month
+cta|CTA|CTA|CTA
+specifications|Spezifikationen|specifiche|especificaciones
+company|Firma|azienda|empresa
+aware|bewusst|consapevole|consciente
+customer|Kunde|cliente|cliente
+solution|Lösung|soluzione|solución
+proof|Beweis|prova|prueba
+run|betreiben|gestire|dirigir
+number|Zahl|numero|número
+google|Google|Google|Google
+still|noch|ancora|todavía
+negocio|Geschäft|attività|=|business
+minutes|Minuten|minuti|minutos
+case|Fall|caso|caso
+height|Höhe|altezza|altura
+data|Daten|dati|datos
+cards|Karten|schede|tarjetas
+logos|Logos|loghi|logotipos
+hover|Hover|hover|pasar el cursor
+support|Unterstützung|supporto|soporte
+include|einschließen|includere|incluir
+trial|Testphase|prova|prueba
+branding|Markenbildung|branding|branding
+words|Wörter|parole|palabras
+message|Nachricht|messaggio|mensaje
+week|Woche|settimana|semana
+phone|Telefon|telefono|teléfono
+success|Erfolg|successo|éxito
+core|Kern|nucleo|núcleo
+top|oben|in alto|arriba
+must|müssen|dovere|deber
+results|Ergebnisse|risultati|resultados
+clear|klar|chiaro|claro
+monthly|monatlich|mensile|mensual
+simple|einfach|semplice|simple
+client|Kunde|cliente|cliente
+provide|bereitstellen|fornire|proporcionar
+implementation|Umsetzung|implementazione|implementación
+code|Code|codice|código
+copy|Werbetext|testo|texto publicitario
+key|Schlüssel|chiave|clave
+image|Bild|immagine|imagen
+desktop|Desktop|desktop|escritorio
+font-weight|Schriftstärke|spessore del carattere|grosor de fuente
+avatar|Avatar|avatar|avatar
+fix|beheben|correggere|arreglar
+feels|fühlt sich an|sembra|se siente
+made|gemacht|fatto|hecho
+hours|Stunden|ore|horas
+built|gebaut|costruito|construido
+back|zurück|indietro|atrás
+project|Projekt|progetto|proyecto
+testimonials|Kundenstimmen|testimonianze|testimonios
+story|Geschichte|storia|historia
+revisions|Überarbeitungen|revisioni|revisiones
+seconds|Sekunden|secondi|segundos
+email|E-Mail|e-mail|correo electrónico
+profile|Profil|profilo|perfil
+sign|Schild|insegna|letrero
+showing|zeigend|mostrando|mostrando
+target|Ziel|obiettivo|objetivo
+body|Körper|corpo|cuerpo
+testimonial|Kundenstimme|testimonianza|testimonio
+subtle|dezent|discreto|sutil
+slider|Schieberegler|cursore|control deslizante
+scale|Skala|scala|escala
+icon|Symbol|icona|icono
+standard|Standard|standard|estándar
+optional|optional|facoltativo|opcional
+cada|jede|ogni|=|every
+clientes|Kunden|clienti|=|customers
+contenido|Inhalt|contenuti|=|content
+tus|deine|tuoi|=|your
+format|Format|formato|formato
+input|Eingabe|input|entrada
+security|Sicherheit|sicurezza|seguridad
+calculator|Rechner|calcolatrice|calculadora
+svg|SVG|SVG|SVG
+column|Spalte|colonna|columna
+columns|Spalten|colonne|columnas
+makes|macht|fa|hace
+open|öffnen|aprire|abrir
+miami-dade|Miami-Dade|Miami-Dade|Miami-Dade
+language|Sprache|lingua|idioma
+long|lang|lungo|largo
+type|Typ|tipo|tipo
+fonts|Schriftarten|caratteri|fuentes
+weeks|Wochen|settimane|semanas
+different|verschieden|diverso|diferente
+screen|Bildschirm|schermo|pantalla
+link|Link|link|enlace
+money|Geld|denaro|dinero
+work|Arbeit|lavoro|trabajo
+visible|sichtbar|visibile|visible
+package|Paket|pacchetto|paquete
+rate|Rate|tasso|tasa
+point|Punkt|punto|punto
+plan|Plan|piano|plan
+left|links|sinistra|izquierda
+best|beste|migliore|mejor
+close|schließen|chiudere|cerrar
+voice|Stimme|voce|voz
+want|wollen|volere|querer
+right|rechts|destra|derecha
+schedule|Zeitplan|programma|horario
+metrics|Kennzahlen|metriche|métricas
+style|Stil|stile|estilo
+build|bauen|costruire|construir
+functional|funktional|funzionale|funcional
+serif|Serifenschrift|grazie|serifa
+request|Anfrage|richiesta|solicitud
+portfolio|Portfolio|portfolio|portafolio
+interactive|interaktiv|interattivo|interactivo
+quote|Zitat|citazione|cita
+file|Datei|file|archivo
+sin|ohne|senza|=|without
+app|App|app|aplicación
+shadcn|shadcn|shadcn|shadcn
+layout|Layout|layout|diseño de página
+based|basiert|basato|basado
+install|installieren|installare|instalar
+context|Kontext|contesto|contexto
+requirements|Anforderungen|requisiti|requisitos
+centered|zentriert|centrato|centrado
+ctas|CTAs|CTA|CTA
+grid|Raster|griglia|cuadrícula
+bottom|unten|in basso|abajo
+max-width|maximale Breite|larghezza massima|ancho máximo
+knows|weiß|sa|sabe
+services|Dienstleistungen|servizi|servicios
+percent|Prozent|percento|por ciento
+bilingual|zweisprachig|bilingue|bilingüe
+next|nächste|prossimo|siguiente
+never|nie|mai|nunca
+something|etwas|qualcosa|algo
+bakery|Bäckerei|panetteria|panadería
+guidelines|Richtlinien|linee guida|pautas
+values|Werte|valori|valores
+family|Familie|famiglia|familia
+good|gut|buono|bueno
+always|immer|sempre|siempre
+established|etabliert|affermato|establecido
+really|wirklich|davvero|realmente
+nobody|niemand|nessuno|nadie
+ve|sieht|vede|=|sees, looks
+short|kurz|breve|corto
+terms|Bedingungen|termini|términos
+included|inbegriffen|incluso|incluido
+platform|Plattform|piattaforma|plataforma
+templates|Vorlagen|modelli|plantillas
+designed|gestaltet|progettato|diseñado
+guava|Guave|guava|guayaba
+line|Linie|linea|línea
+last|letzte|ultimo|último
+closed|geschlossen|chiuso|cerrado
+finally|endlich|finalmente|finalmente
+now|jetzt|ora|ahora
+photos|Fotos|foto|fotos
+inter|Inter|Inter|Inter
+contact|Kontakt|contatto|contacto
+fade|verblassen|dissolvenza|desvanecer
+comparison|Vergleich|confronto|comparación
+points|Punkte|punti|puntos
+ms|ms|ms|ms
+background|Hintergrund|sfondo|fondo
+approach|Ansatz|approccio|enfoque
+contrast|Kontrast|contrasto|contraste
+motion|Bewegung|movimento|movimiento
+theme|Thema|tema|tema
+animation|Animation|animazione|animación
+library|Bibliothek|libreria|biblioteca
+comprehensive|umfassend|completo|integral
+solid|solide|solido|sólido
+management|Verwaltung|gestione|gestión
+com|.com|.com|.com
+privacy|Datenschutz|privacy|privacidad
+policy|Richtlinie|politica|política
+negocios|Unternehmen|attività|=|businesses
+cliente|Kunde|cliente|=|customer
+página|Seite|pagina|=|page
+revisiones|Überarbeitungen|revisioni|=|revisions
+final|endgültig|finale|final
+folder|Ordner|cartella|carpeta
+accessibility|Barrierefreiheit|accessibilità|accesibilidad
+single|einzeln|singolo|único
+assets|Ressourcen|risorse|recursos
+stack|Technologie-Stack|stack|pila tecnológica
+deals|Abschlüsse|trattative|acuerdos
+supporting|unterstützend|di supporto|de apoyo
+annual|jährlich|annuale|anual
+study|Studie|studio|estudio
+designer|Designer|designer|diseñador
+slow|langsam|lento|lento
+leads|Interessenten|contatti|clientes potenciales
+choose|wählen|scegliere|elegir
+ready|bereit|pronto|listo
+better|besser|migliore|mejor
+broward|Broward|Broward|Broward
+handle|Benutzername|nome utente|usuario
+entry|Einstieg|ingresso|entrada
+homemade|hausgemacht|fatto in casa|casero
+year|Jahr|anno|año
+events|Veranstaltungen|eventi|eventos
+looking|aussehend|che appare|luciendo
+past|vorbei|passato|pasado
+likes|Likes|mi piace|me gusta
+goes|geht|va|va
+posting|Posten|pubblicare|publicar
+opened|eröffnet|aperto|abrió
+fear|Angst|paura|miedo
+losing|verlieren|perdere|perder
+contract|Vertrag|contratto|contrato
+stop|aufhören|smettere|dejar
+sees|sieht|vede|ve
+tiempo|Zeit|tempo|=|time
+cost|Kosten|costo|costo
+payment|Zahlung|pagamento|pago
+examples|Beispiele|esempi|ejemplos
+costing|kostend|costando|costando
+audit|Prüfung|audit|auditoría
+minute|Minute|minuto|minuto
+call|Anruf|chiamata|llamada
+headlines|Überschriften|titoli|titulares
+hooks|Aufhänger|ganci|ganchos
+calendar|Kalender|calendario|calendario
+price|Preis|prezzo|precio
+pink|rosa|rosa|rosa
+even|sogar|anche|incluso
+keep|behalten|mantenere|mantener
+sunday|Sonntag|domenica|domingo
+went|ging|andò|fue
+give|geben|dare|dar
+white|weiß|bianco|blanco
+make|machen|fare|hacer
+phones|Handys|telefoni|teléfonos
+us|uns|noi|nosotros
+expert|Experte|esperto|experto
+narrative|Erzählung|narrazione|narrativa
+teal|Petrol|verde acqua|verde azulado
+clean|sauber|pulito|limpio
+sizes|Größen|dimensioni|tamaños
+set|Satz|insieme|conjunto
+dev|Entwicklung|sviluppo|desarrollo
+element|Element|elemento|elemento
+buttons|Schaltflächen|pulsanti|botones
+shadow|Schatten|ombra|sombra
+states|Zustände|stati|estados
+needed|benötigt|necessario|necesario
+indicators|Indikatoren|indicatori|indicadores
+toggle|Umschalter|interruttore|interruptor
+outline|Umriss|contorno|contorno
+svgs|SVGs|SVG|SVG
+need|brauchen|aver bisogno|necesitar
+average|Durchschnitt|media|promedio
+please|bitte|per favore|por favor
+día|Tag|giorno|=|day
+minutos|Minuten|minuti|=|minutes
+qué|was|cosa|=|what
+forms|Formulare|moduli|formularios
+path|Pfad|percorso|ruta
+team|Team|squadra|equipo
+front-end|Frontend|front-end|front-end
+developer|Entwickler|sviluppatore|desarrollador
+output|Ergebnis|risultato|resultado
+tone|Ton|tono|tono
+propose|vorschlagen|proporre|proponer
+specify|angeben|specificare|especificar
+instructions|Anweisungen|istruzioni|instrucciones
+react|React|React|React
+default|Standard|predefinito|predeterminado
+dependencies|Abhängigkeiten|dipendenze|dependencias
+teams|Teams|squadre|equipos
+transform|verwandeln|trasformare|transformar
+sentences|Sätze|frasi|oraciones
+minimum|Minimum|minimo|mínimo
+vs|gegen|contro|contra
+fields|Felder|campi|campos
+versions|Versionen|versioni|versiones
+instead|stattdessen|invece|en cambio
+stages|Stufen|fasi|etapas
+little|wenig|poco|poco
+pains|Schmerzen|dolori|dolores
+palm|Palme|palma|palma
+beach|Strand|spiaggia|playa
+second|zweite|secondo|segundo
+home|Zuhause|casa|hogar
+revenue|Umsatz|fatturato|ingresos
+plus|plus|più|más
+dollars|Dollar|dollari|dólares
+works|funktioniert|funziona|funciona
+smaller|kleiner|più piccolo|más pequeño
+without|ohne|senza|sin
+signs|Schilder|insegne|letreros
+menus|Speisekarten|menù|menús
+say|sagen|dire|decir
+street|Straße|strada|calle
+people|Leute|persone|gente
+someone|jemand|qualcuno|alguien
+tengo|ich habe|ho|=|I have
+casero|hausgemacht|fatto in casa|=|homemade
+come|kommen|venire|venir
+plans|Pläne|piani|planes
+similar|ähnlich|simile|similar
+got|bekam|ottenuto|consiguió
+culture|Kultur|cultura|cultura
+positioning|Positionierung|posizionamento|posicionamiento
+order|Reihenfolge|ordine|orden
+refresh|Auffrischung|rinnovo|actualización
+guide|Leitfaden|guida|guía
+done-for-you|Rundum-Service|chiavi in mano|hecho para ti
+nights|Nächte|notti|noches
+smell|Geruch|odore|olor
+ago|vor|fa|hace
+caption|Bildunterschrift|didascalia|pie de foto
+anything|irgendetwas|qualsiasi cosa|cualquier cosa
+result|Ergebnis|risultato|resultado
+change|ändern|cambiare|cambiar
+asked|fragte|chiese|preguntó
+way|Weg|modo|manera
+warm|warm|caldo|cálido
+numbers|Zahlen|numeri|números
+live|live|dal vivo|en vivo
+palette|Palette|tavolozza|paleta
+base|Basis|base|base
+extracted|extrahiert|estratto|extraído
+blue|blau|blu|azul
+gray|grau|grigio|gris
+backgrounds|Hintergründe|sfondi|fondos
+modern|modern|moderno|moderno
+audience|Zielgruppe|pubblico|audiencia
+weights|Gewichte|pesi|pesos
+hierarchy|Hierarchie|gerarchia|jerarquía
+dm|DM|DM|DM
+regular|regulär|regolare|regular
+header|Kopfzeile|intestazione|encabezado
+hamburger|Hamburger-Menü|menu hamburger|menú hamburguesa
+split|geteilt|diviso|dividido
+stats|Statistiken|statistiche|estadísticas
+loading|Laden|caricamento|carga
+approve|genehmigen|approvare|aprobar
+overlay|Überlagerung|sovrapposizione|superposición
+keyboard|Tastatur|tastiera|teclado
+aria|ARIA|ARIA|ARIA
+correct|richtig|corretto|correcto
+tokens|Tokens|token|tokens
+utility-first|Utility-First|utility-first|utility-first
+utilities|Hilfsklassen|utilità|utilidades
+complex|komplex|complesso|complejo
+steps|Schritte|passi|pasos
+architecture|Architektur|architettura|arquitectura
+review|Überprüfung|revisione|revisión
+highlight|Hervorhebung|evidenziazione|destacado
+files|Dateien|file|archivos
+questions|Fragen|domande|preguntas
+meta|Meta|meta|meta
+roles|Rollen|ruoli|roles
+fill|füllen|riempire|llenar
+español|Spanisch|spagnolo|=|Spanish
+eres|du bist|sei|=|you are
+colores|Farben|colori|=|colors
+segundos|Sekunden|secondi|=|seconds
+sociales|sozial|social|=|social
+tú|du|tu|=|you
+identidad|Identität|identità|=|identity
+todo|alles|tutto|=|everything
+perfil|Profil|profilo|=|profile
+renovación|Neugestaltung|rinnovamento|=|makeover, renewal
+plantillas|Vorlagen|modelli|=|templates
+primer|erste|primo|=|first
+aquí|hier|qui|=|here
+va|geht|va|=|goes
+nombre|Name|nome|=|name
+todos|alle|tutti|=|all
+nuevo|neu|nuovo|=|new
+landing|Landingpage|landing page|página de aterrizaje
+setup|Einrichtung|configurazione|configuración
+links|Links|link|enlaces
+footer|Fußzeile|piè di pagina|pie de página
+json|JSON|JSON|JSON
+npm|npm|npm|npm
+markdown|Markdown|Markdown|Markdown
+contribution|Beitrag|contributo|contribución
+led|geleitet|guidato|dirigido
+proposition|Angebot|proposta|propuesta
+define|definieren|definire|definir
+benefits|Vorteile|vantaggi|beneficios
+trust|Vertrauen|fiducia|confianza
+info|Info|info|información
+visualization|Visualisierung|visualizzazione|visualización
+common|üblich|comune|común
+populate|befüllen|popolare|rellenar
+spacing|Abstand|spaziatura|espaciado
+integrate|integrieren|integrare|integrar
+codebase|Codebasis|codebase|base de código
+identify|identifizieren|identificare|identificar
+bar|Leiste|barra|barra
+enterprise|Unternehmen|impresa|empresa
+badge|Abzeichen|badge|insignia
+statement|Aussage|dichiarazione|declaración
+saved|gespeichert|salvato|guardado
+credit|Kredit|credito|crédito
+opportunities|Chancen|opportunità|oportunidades
+width|Breite|larghezza|ancho
+full-width|volle Breite|larghezza piena|ancho completo
+ratio|Verhältnis|rapporto|proporción
+size|Größe|dimensione|tamaño
+calculation|Berechnung|calcolo|cálculo
+border|Rahmen|bordo|borde
+max|max.|max|máx.
+padding|Innenabstand|spaziatura interna|relleno
+integration|Integration|integrazione|integración
+compliance|Konformität|conformità|cumplimiento
+optimize|optimieren|ottimizzare|optimizar
+conversion|Konversion|conversione|conversión
+tags|Tags|tag|etiquetas
+tracking|Nachverfolgung|tracciamento|seguimiento
+testing|Testen|test|pruebas
+owner|Inhaberin|proprietaria|dueña
+yet|noch|ancora|todavía
+partner|Partner|partner|socio
+lost|verloren|perso|perdido
+help|Hilfe|aiuto|ayuda
+hispanic|hispanisch|ispanico|hispano
+enough|genug|abbastanza|suficiente
+channels|Kanäle|canali|canales
+report|Bericht|rapporto|informe
+days|Tage|giorni|días
+cash|Bargeld|contanti|efectivo
+low-risk|risikoarm|a basso rischio|de bajo riesgo
+done|erledigt|fatto|hecho
+agency|Agentur|agenzia|agencia
+daniela|Daniela|Daniela|Daniela
+hialeah|Hialeah|Hialeah|Hialeah
+boutique|Boutique|boutique|boutique
+fitness|Fitness|fitness|fitness
+med|medizinisch|medico|médico
+spa|Spa|spa|spa
+years|Jahre|anni|años
+facebook|Facebook|Facebook|Facebook
+tiktok|TikTok|TikTok|TikTok
+mostly|meistens|soprattutto|mayormente
+late|spät|tardi|tarde
+main|Haupt-|principale|principal
+word|Wort|parola|palabra
+burned|enttäuscht|scottato|quemado
+repeat|wiederkehrend|abituale|recurrente
+online|online|online|en línea
+trustworthy|vertrauenswürdig|affidabile|confiable
+pm|abends|di sera|p. m.
+competitor|Konkurrent|concorrente|competidor
+behind|zurück|indietro|atrás
+dollar|Dollar|dollaro|dólar
+fast|schnell|veloce|rápido
+getting|bekommen|ottenere|obtener
+mis|meine|miei|=|my
+buying|Kauf|acquisto|compra
+starter|Einsteiger|base|inicial
+posted|gepostet|pubblicato|publicado
+nothing|nichts|niente|nada
+already|bereits|già|ya
+great|großartig|fantastico|genial
+missing|fehlend|mancante|faltante
+step|Schritt|passo|paso
+walk|gehen|camminare|caminar
+read|lesen|leggere|leer
+profesional|professionell|professionale|=|professional
+follow-up|Nachfassen|follow-up|seguimiento
+exactly|genau|esattamente|exactamente
+one-page|einseitig|di una pagina|de una página
+highlights|Highlights|in evidenza|destacadas
+bio|Bio|bio|biografía
+approved|genehmigt|approvato|aprobado
+stays|bleibt|resta|se queda
+service|Service|servizio|servicio
+month-to-month|monatlich kündbar|mese per mese|mes a mes
+diary|Tagebuch|diario|diario
+table|Tabelle|tabella|tabla
+today|heute|oggi|hoy
+register|Kasse|cassa|caja registradora
+scrolling|Scrollen|scorrimento|desplazamiento
+thing|Ding|cosa|cosa
+door|Tür|porta|puerta
+said|sagte|disse|dijo
+two|zwei|due|dos
+felt|fühlte|sentito|sintió
+telling|erzählen|dire|decir
+properly|richtig|correttamente|correctamente
+comes|kommt|viene|viene
+feeling|Gefühl|sensazione|sentimiento
+hands|Hände|mani|manos
+almost|fast|quasi|casi
+four|vier|quattro|cuatro
+scared|verängstigt|spaventato|asustado
+hope|Hoffnung|speranza|esperanza
+afraid|ängstlich|impaurito|con miedo
+anymore|nicht mehr|più|ya no
+exact|genau|esatto|exacto
+try|versuchen|provare|intentar
+match|passen|abbinare|combinar
+matches|passt|si abbina|combina
+shows|zeigt|mostra|muestra
+old|alt|vecchio|viejo
+check|prüfen|controllare|revisar
+owner's|der Inhaberin|della proprietaria|de la dueña
+confident|selbstbewusst|sicuro|seguro
+trusted|vertraut|fidato|de confianza
+happens|passiert|succede|sucede
+communication|Kommunikation|comunicazione|comunicación
+lagoon|Lagune|laguna|laguna
+medium|mittel|medio|medio
+sans-serif|serifenlos|senza grazie|sans serif
+character|Zeichen|carattere|carácter
+including|einschließlich|incluso|incluyendo
+sticky|fixiert|fisso|fijo
+blocks|Blöcke|blocchi|bloques
+validation|Validierung|convalida|validación
+messages|Nachrichten|messaggi|mensajes
+magicui|MagicUI|MagicUI|MagicUI
+visitor|Besucher|visitatore|visitante
+effects|Effekte|effetti|efectos
+wizard|Assistent|procedura guidata|asistente
+current|aktuell|attuale|actual
+preferred|bevorzugt|preferito|preferido
+lift|anheben|sollevare|elevar
+inputs|Eingaben|input|entradas
+gain|gewinnen|guadagnare|ganar
+ring|Ring|anello|anillo
+loads|lädt|carica|carga
+actions|Aktionen|azioni|acciones
+slide|Folie|diapositiva|diapositiva
+enter|eintreten|entrare|entrar
+mobile-first|Mobile-First|mobile-first|mobile-first
+layouts|Layouts|layout|diseños
+larger|größer|più grande|más grande
+stacked|gestapelt|impilato|apilado
+touch|Berührung|tocco|toque
+targets|Ziele|obiettivi|objetivos
+wcag|WCAG|WCAG|WCAG
+reader|Leser|lettore|lector
+semantic|semantisch|semantico|semántico
+html|HTML|HTML|HTML
+labels|Beschriftungen|etichette|etiquetas
+feedback|Rückmeldung|feedback|comentarios
+respect|respektieren|rispettare|respetar
+reduced|reduziert|ridotto|reducido
+daisyui|DaisyUI|DaisyUI|DaisyUI
+transitions|Übergänge|transizioni|transiciones
+illustrations|Illustrationen|illustrazioni|ilustraciones
+mp|MP4|MP4|MP4
+component-based|komponentenbasiert|basato su componenti|basado en componentes
+variants|Varianten|varianti|variantes
+launch|Start|lancio|lanzamiento
+take|nehmen|prendere|tomar
+fresh|frisch|fresco|fresco
+ask|fragen|chiedere|preguntar
+access|Zugang|accesso|acceso
+cancel|kündigen|annullare|cancelar
+within|innerhalb|entro|dentro de
+inglés|Englisch|inglese|=|English
+compromiso|Verpflichtung|impegno|=|commitment, obligation
+nosotros|wir|noi|=|we, us
+letras|Buchstaben|lettere|=|letters (lettering)
+tres|drei|tre|=|three
+pequeños|klein|piccoli|=|small
+desde|ab|da|=|from, since
+historia|Geschichte|storia|=|story
+creamos|wir erstellen|creiamo|=|we create
+apruebas|du genehmigst|approvi|=|you approve
+incluidas|inbegriffen|incluse|=|included
+mensual|monatlich|mensile|=|monthly
+nuevos|neu|nuovi|=|new
+testimonio|Kundenstimme|testimonianza|=|testimonial
+completo|vollständig|completo|=|complete
+comienzo|Anfang|inizio|=|beginning
+archivos|Dateien|file|=|files
+teléfono|Telefon|telefono|=|phone
+correo|E-Mail|e-mail|=|email
+typescript|TypeScript|TypeScript|TypeScript
+cli|CLI|CLI|CLI
+follows|folgt|segue|sigue
+choice|Wahl|scelta|elección
+badges|Abzeichen|badge|insignias
+stock|Stock-|stock|de archivo
+source|Quelle|fonte|fuente
+depth|Tiefe|profondità|profundidad
+paste|einfügen|incollare|pegar
+document|Dokument|documento|documento
+overview|Überblick|panoramica|resumen general
+hex|Hex|esadecimale|hexadecimal
+neutral|neutral|neutro|neutro
+error|Fehler|errore|error
+detailed|detailliert|dettagliato|detallado
+categories|Kategorien|categorie|categorías
+dashboard|Dashboard|dashboard|panel
+micro-interactions|Mikrointeraktionen|microinterazioni|microinteracciones
+breakpoints|Breakpoints|breakpoint|puntos de quiebre
+existing|vorhanden|esistente|existente
+styles|Stile|stili|estilos
+passed|bestanden|superato|aprobado
+ai-powered|KI-gestützt|basato sull'IA|impulsado por IA
+convert|umwandeln|convertire|convertir
+limit|Grenze|limite|límite
+outcomes|Ergebnisse|risultati|resultados
+increased|erhöht|aumentato|aumentado
+grayscale|Graustufen|scala di grigi|escala de grises
+deal|Abschluss|affare|trato
+pattern|Muster|schema|patrón
+statistics|Statistiken|statistiche|estadísticas
+headline|Überschrift|titolo|titular
+poor|schlecht|scarso|deficiente
+accent|Akzent|accento|acento
+alternating|abwechselnd|alternato|alterno
+description|Beschreibung|descrizione|descripción
+example|Beispiel|esempio|ejemplo
+container|Container|contenitore|contenedor
+aspect|Seitenverhältnis|proporzioni|proporción
+savings|Ersparnisse|risparmi|ahorros
+prominent|auffällig|in evidenza|destacado
+save|sparen|risparmiare|ahorrar
+maintain|beibehalten|mantenere|mantener
+additional|zusätzlich|aggiuntivo|adicional
+equal|gleich|uguale|igual
+tier|Stufe|livello|nivel
+popular|beliebt|popolare|popular
+integrations|Integrationen|integrazioni|integraciones
+slight|leicht|leggero|ligero
+brief|Briefing|brief|resumen
+load|laden|caricare|cargar
+performance|Leistung|prestazioni|rendimiento
+seo|SEO|SEO|SEO
+speed|Geschwindigkeit|velocità|velocidad
+analytics|Analysen|analisi|analítica
+development|Entwicklung|sviluppo|desarrollo
+framework|Framework|framework|framework

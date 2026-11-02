@@ -215,7 +215,7 @@ details strong { color: var(--ink); }
   <header>
     <div class="stripe" aria-hidden="true"></div>
     <h1>Studio Word Map</h1>
-    <p class="lede">Type an English or Spanish word to find the 10 closest words in general English, using Word2Vec-style GloVe vectors learned from billions of words of Wikipedia and news text. See the neighborhood in 2D or 3D, read it in English and Spanish, and earn coins for every new word you discover.</p>
+    <p class="lede">Type an English or Spanish word to find the 10 closest words in general English, using Google's pretrained Word2Vec model, learned from about 100 billion words of Google News. See the neighborhood in 2D or 3D, read it in English and Spanish, and earn coins for every new word you discover.</p>
     <div class="meta" id="meta"><span class="pill">Loading the model…</span></div>
   </header>
 
@@ -248,7 +248,7 @@ details strong { color: var(--ink); }
       <p class="info" id="info" hidden></p>
       <div class="langsw"><span class="seg-label">Show in</span><span class="seg" role="group" aria-label="Results language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="es" aria-pressed="false">Español</button></span></div>
       <p class="msg" id="msg" role="status" hidden></p>
-      <ol class="nn" id="nn"><li class="loading">Loading 30,000 English words…</li></ol>
+      <ol class="nn" id="nn"><li class="loading">Loading the Word2Vec model (25,000 English words)…</li></ol>
     </section>
 
     <section class="panel p-map" aria-labelledby="map-title">
@@ -260,7 +260,7 @@ details strong { color: var(--ink); }
         </div>
       </div>
       <div id="plot" role="img" aria-label="Map of the searched word, its 10 closest words, and the surrounding neighborhood"></div>
-      <p class="note" id="plotnote">Each search redraws the map with PCA over the word and its nearest neighbors, so the layout shows how that neighborhood is organized.</p>
+      <p class="note" id="plotnote">Each search runs principal component analysis (PCA) on the word and its nearest neighbors and plots the top 2 or 3 components, so you see how that neighborhood is organized.</p>
     </section>
 
     <section class="panel p-tr" aria-labelledby="tr-title">
@@ -274,7 +274,7 @@ details strong { color: var(--ink); }
           <tbody id="trbody"></tbody>
         </table>
       </div>
-      <p class="tr-note">Spanish comes from an open Wiktionary dictionary and shows each word's most common sense. About 11,700 of the 30,000 English words have an entry.</p>
+      <p class="tr-note">Spanish comes from an open Wiktionary dictionary and shows each word's most common sense. About 12,000 of the 25,000 English words have an entry.</p>
       <div class="board" id="board" hidden>
         <p class="tr-head" style="margin-top:18px">Top players</p>
         <ol id="board-list"></ol>
@@ -285,11 +285,11 @@ details strong { color: var(--ink); }
   <details>
     <summary>How this works</summary>
     <ul>
-      <li><strong>Vectors:</strong> <span id="src"></span>. Every word is a 100-number vector; words used in similar contexts get similar vectors. GloVe is a close cousin of Word2Vec and gives the same kind of word neighborhoods.</li>
-      <li><strong>Closest words:</strong> cosine similarity between your word's vector and all 30,000 others, computed in your browser. <code>+</code> and <code>-</code> add and subtract vectors, so <code>king - man + woman</code> lands near "queen".</li>
+      <li><strong>Model:</strong> <span id="src"></span>. Word2Vec (Mikolov et al., 2013) learns a 300-number vector for every word by predicting the words around it (skip-gram), so words used in similar contexts end up with similar vectors.</li>
+      <li><strong>Closest words:</strong> cosine similarity between your word's vector and all 25,000 others, computed in your browser. <code>+</code> and <code>-</code> add and subtract vectors, so <code>king - man + woman</code> lands near "queen".</li>
       <li><strong>Spanish:</strong> a Spanish search is translated to English first (miedo → fear), then searched. Translations: <span id="dict"></span>.</li>
-      <li><strong>Map:</strong> PCA over the word and its 50–200 nearest neighbors, in 2D or 3D. Distances on the map are approximate; the list on the left is exact.</li>
-      <li><strong>Coins:</strong> 10 for each word you search for the first time, 15 for rare words (outside the 15,000 most common). They're saved under your username: online for everyone on the published site, or in this browser when the page can't reach the coin server.</li>
+      <li><strong>Map:</strong> principal component analysis (PCA) of the 300-dimension vectors of the word and its 50–200 nearest neighbors, projected onto the top 2 components (2D) or 3 components (3D). Distances on the map are approximate; the list on the left is exact.</li>
+      <li><strong>Coins:</strong> 10 for each word you search for the first time, 15 for rare words (outside the 12,000 most common). They're saved under your username: online for everyone on the published site, or in this browser when the page can't reach the coin server.</li>
     </ul>
   </details>
 </div>
@@ -310,7 +310,7 @@ details strong { color: var(--ink); }
 <script>
 const NEAR_COLORS = ["#ff6b35", "#ff8c42", "#ffb547", "#ffd23f", "#9ef01a", "#3ddc97", "#2ee6c8", "#4cc9f0", "#8f7bff", "#c77dff"];
 const QUERY_COLOR = "#ff3cac";
-const RARE_RANK = 15000;
+const RARE_RANK = 12000;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const fold = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
@@ -337,7 +337,7 @@ async function loadModel() {
   index = new Map(M.words.map((w, i) => [w, i]));
   esIndex = new Map();
   for (const [es, i] of Object.entries(M.esSearch)) { if (!esIndex.has(fold(es))) esIndex.set(fold(es), i); }
-  $("meta").innerHTML = ["30,000 English words", "100 dimensions", "GloVe · 6B words", "English · Español"].map(t => `<span class="pill">${t}</span>`).join("");
+  $("meta").innerHTML = ["Word2Vec · Google News", "25,000 English words", "300 dimensions", "English · Español"].map(t => `<span class="pill">${t}</span>`).join("");
   $("src").textContent = M.source; $("dict").textContent = M.dictionary;
   $("vocab").innerHTML = M.words.slice(0, 8000).map(w => `<option value="${esc(w)}"></option>`).join("");
   ["fear", "miedo", "bakery", "brand", "logo", "panadería", "coffee", "happy", "miami", "king - man + woman"].forEach((w, k) => {
@@ -373,7 +373,7 @@ function run(text, opts = {}) {
   const known = res.filter(t => t.r);
   $("q").value = text;
   if (!known.length) {
-    $("msg").textContent = `"${missing.join(", ")}" isn't in the 30,000-word English vocabulary or the Spanish dictionary. Check the spelling or try a more common word. The results below are from your previous search.`;
+    $("msg").textContent = `"${missing.join(", ")}" isn't in the 25,000-word English vocabulary or the Spanish dictionary. Check the spelling or try a more common word. The results below are from your previous search.`;
     $("msg").hidden = false;
     return;
   }
