@@ -1,0 +1,2 @@
+numpy>=1.26
+scikit-learn>=1.4   # only for train_word2vec_numpy.py (t-SNE/PCA maps)

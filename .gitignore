@@ -1,3 +1,7 @@
 .netlify
 node_modules
 .DS_Store
+__pycache__/
+model/*.gz
+model/spanish_data/
+model/corpus/
