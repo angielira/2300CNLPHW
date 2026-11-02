@@ -1,4 +1,7 @@
-# Plain static page: nothing to build, publish this folder as-is.
+# Static page + one function (coins per username, stored in Netlify Blobs).
 [build]
-  command = ""
-  publish = "."
+  command = "echo 'Static site: nothing to build'"
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
