@@ -1,7 +1,4 @@
-# Netlify builds the site and serves the static `out` folder.
+# Plain static page: nothing to build, publish this folder as-is.
 [build]
-  command = "npm run build"
-  publish = "out"
-
-[build.environment]
-  NODE_VERSION = "20"
+  command = ""
+  publish = "."

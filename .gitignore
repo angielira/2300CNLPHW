@@ -1,4 +1,2 @@
-node_modules
-.next
-out
-.env*.local
+.netlify
+.DS_Store
