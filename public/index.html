@@ -306,7 +306,9 @@ details strong { color: var(--ink); }
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js"></script>
+<!-- Plotly ships with the site (plotly.min.js); the CDN copy is only a fallback. -->
+<script src="plotly.min.js"></script>
+<script>window.Plotly || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js"><\/script>');</script>
 <script>
 const NEAR_COLORS = ["#ff6b35", "#ff8c42", "#ffb547", "#ffd23f", "#9ef01a", "#3ddc97", "#2ee6c8", "#4cc9f0", "#8f7bff", "#c77dff"];
 const QUERY_COLOR = "#ff3cac";
@@ -636,7 +638,7 @@ $("form").addEventListener("submit", (e) => { e.preventDefault(); run($("q").val
     await loadModel();
     run("fear", { silent: true });
     if (window.Plotly) $("plot").on("plotly_click", (e) => { const p = e.points && e.points[0]; if (p && p.customdata != null) run(M.words[p.customdata], { keepLang: true }); });
-    else $("plotnote").textContent = "The map library didn't load. The closest words and translations still work.";
+    else $("plot").innerHTML = `<div class="msg" style="display:grid;place-items:center;height:100%;text-align:center;padding:24px">The 2D/3D map couldn't load its charting library (Plotly). An ad blocker or network filter may be blocking it. Try turning it off for this site and reloading. The closest words and translations still work.</div>`;
   } catch (err) {
     $("nn").innerHTML = `<li class="msg">Couldn't load the word vectors (${esc(err.message)}). Reload the page to try again.</li>`;
   }
