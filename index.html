@@ -100,6 +100,11 @@ button { font: inherit; cursor: pointer; }
 .target { font-family: var(--font-data); color: var(--query); font-weight: 600; text-shadow: 0 0 14px rgba(255, 60, 172, .6); }
 .msg { font-size: 14px; color: var(--warn); margin: 0 0 12px; }
 .msg[hidden] { display: none; }
+.info { font-size: 13px; color: var(--muted); margin: -6px 0 12px; }
+.info b { color: var(--ink); font-family: var(--font-data); }
+.info[hidden] { display: none; }
+.alt { display: block; font: 400 12px var(--font-data); color: var(--muted); margin-top: 1px; }
+.langsw { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; flex-wrap: wrap; }
 
 ol.nn { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .row {
@@ -223,11 +228,11 @@ details strong { color: var(--ink); }
 
   <section class="query" aria-label="Search the model">
     <form id="form" autocomplete="off">
-      <input id="q" list="vocab" placeholder="Type a word, e.g. fear" aria-label="Word to look up" spellcheck="false">
+      <input id="q" list="vocab" placeholder="Type a word in English or Spanish, e.g. fear or miedo" aria-label="Word to look up" spellcheck="false">
       <datalist id="vocab"></datalist>
       <button class="go" type="submit">Find 10 closest</button>
     </form>
-    <p class="hint">Every word you search for the first time earns <b>10 coins</b>, and rare words (used 5 times or fewer) earn <b>+5 bonus</b>. Combine words with <code>+</code> and <code>-</code>, like <code>logo + instagram</code>, and click any word in a list or on the map to jump to it.</p>
+    <p class="hint">Search in <b>English or Spanish</b>; accents are optional. Every word you search for the first time earns <b>10 coins</b>, and rare words (used 5 times or fewer) earn <b>+5 bonus</b>. Combine words with <code>+</code> and <code>-</code>, like <code>logo + instagram</code>, and click any word in a list or on the map to jump to it.</p>
     <div class="chips" id="chips" aria-label="Try these words"></div>
   </section>
 
@@ -235,6 +240,8 @@ details strong { color: var(--ink); }
     <section class="panel p-nn" aria-labelledby="nn-title">
       <h2 id="nn-title">Closest words</h2>
       <p class="sub">to <span class="target" id="target">—</span>, by cosine similarity</p>
+      <p class="info" id="info" hidden></p>
+      <div class="langsw"><span class="seg-label">Show results in</span><span class="seg" role="group" aria-label="Results language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="es" aria-pressed="false">Español</button></span></div>
       <p class="msg" id="msg" role="status" hidden></p>
       <ol class="nn" id="nn"></ol>
     </section>
@@ -302,7 +309,23 @@ MODEL.vectors_q.forEach((row, i) => {
   row.forEach((x, j) => { vecs[i * D + j] = x / n; });
 });
 
-const state = { dim: 2, proj: "tsne", query: null, neighbors: [], hits: [] };
+const state = { dim: 2, proj: "tsne", query: null, neighbors: [], hits: [], lang: "en" };
+
+/* English + Spanish lookup: exact word, then accent-free word, then a Spanish translation. */
+const fold = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+const foldIndex = new Map(), esIndex = new Map();
+const better = (map, key, i) => { const cur = map.get(key); if (cur === undefined || MODEL.counts[i] > MODEL.counts[cur]) map.set(key, i); };
+words.forEach((w, i) => better(foldIndex, fold(w), i));
+words.forEach((w, i) => better(esIndex, fold(MODEL.tr[i].es), i));
+function resolve(w) {
+  if (index.has(w)) return { i: index.get(w), via: MODEL.tr[index.get(w)].src === "es" ? "es" : "en" };
+  const f = fold(w);
+  if (foldIndex.has(f)) { const i = foldIndex.get(f); return { i, via: MODEL.tr[i].src === "es" ? "es" : "en" }; }
+  if (esIndex.has(f)) return { i: esIndex.get(f), via: "es", translated: true };
+  return null;
+}
+const label = (i) => state.lang === "es" ? MODEL.tr[i].es : MODEL.tr[i].en;
+const otherLabel = (i) => state.lang === "es" ? MODEL.tr[i].en : MODEL.tr[i].es;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -311,11 +334,11 @@ $("meta").innerHTML = [`${V.toLocaleString()} words`, `${D} dimensions`, `${MODE
 $("files").textContent = MODEL.meta.files.join(", ");
 $("params").textContent = `${D} dimensions, window ${MODEL.meta.window}, ${MODEL.meta.negative} negative samples, ${MODEL.meta.epochs} epochs`;
 $("ntr").textContent = V.toLocaleString();
-$("vocab").innerHTML = words.map(w => `<option value="${esc(w)}"></option>`).join("");
+$("vocab").innerHTML = [...new Set([...words, ...MODEL.tr.map(t => t.es)])].map(w => `<option value="${esc(w)}"></option>`).join("");
 $("clusters").innerHTML = MODEL.cluster_names.map((n, k) => `<span style="--c:${CLUSTER_COLORS[k]}"><i></i>${esc(n)}</span>`).join("");
 
-["fear", "logo", "instagram", "bakery", "spanish", "price", "customers", "hope", "brand", "daniela"]
-  .filter(w => index.has(w))
+["fear", "miedo", "logo", "panadería", "instagram", "esperanza", "price", "clientes", "brand", "daniela"]
+  .filter(w => resolve(w))
   .forEach((w, k) => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "chip"; b.textContent = w; b.style.setProperty("--c", NEAR_COLORS[k]);
@@ -328,21 +351,29 @@ function parse(text) {
   return parts.map(p => ({ w: p.replace(/^[+-]\s*/, "").trim(), sign: p.trim().startsWith("-") ? -1 : 1 })).filter(t => t.w);
 }
 function suggest(w) {
-  const pre = words.filter(x => x.startsWith(w.slice(0, 3))).slice(0, 5);
+  const p = fold(w).slice(0, 3);
+  const pre = [...new Set([...words, ...MODEL.tr.map(t => t.es)])].filter(x => fold(x).startsWith(p)).slice(0, 6);
   return pre.length ? ` Try: ${pre.join(", ")}.` : "";
 }
 
 function run(text, opts = {}) {
   const terms = parse(text);
   if (!terms.length) return;
-  const missing = terms.filter(t => !index.has(t.w)).map(t => t.w);
-  const known = terms.filter(t => index.has(t.w));
+  const resolved = terms.map(t => ({ ...t, r: resolve(t.w) }));
+  const missing = resolved.filter(t => !t.r).map(t => t.w);
+  const known = resolved.filter(t => t.r).map(t => ({ typed: t.w, w: words[t.r.i], sign: t.sign, via: t.r.via, translated: t.r.translated }));
   $("q").value = text;
   if (!known.length) {
-    $("msg").textContent = `"${missing.join(", ")}" isn't in the model's vocabulary.` + suggest(missing[0]);
+    $("msg").textContent = `"${missing.join(", ")}" isn't in the model's English or Spanish vocabulary.` + suggest(missing[0]) + " The results below are from your previous search.";
     $("msg").hidden = false;
+    $("info").hidden = true;
     return;
   }
+  // Show results in Spanish when the search was in Spanish, unless told otherwise.
+  if (!opts.keepLang) setLang(known.every(t => t.via === "es") ? "es" : "en", false);
+  const mapped = known.filter(t => fold(t.typed) !== fold(t.w));
+  $("info").hidden = !mapped.length;
+  if (mapped.length) $("info").innerHTML = "Matched " + mapped.map(t => `<b>${esc(t.typed)}</b> to <b>${esc(t.w)}</b>`).join(", ") + (mapped.some(t => t.translated) ? " (Spanish → model word)." : " (accents ignored).");
   $("msg").hidden = !missing.length;
   if (missing.length) $("msg").textContent = `Skipped ${missing.map(m => `"${m}"`).join(", ")}: not in the vocabulary.` + suggest(missing[0]);
 
@@ -359,24 +390,35 @@ function run(text, opts = {}) {
   }
   scored.sort((a, b) => b[1] - a[1]);
   state.terms = known;
-  state.query = known.map((t, k) => (k ? (t.sign < 0 ? " − " : " + ") : (t.sign < 0 ? "− " : "")) + t.w).join("");
+  state.queryIds = known.map(t => ({ i: index.get(t.w), sign: t.sign }));
   state.hits = [...used];
   state.neighbors = scored.slice(0, 10);
   renderList(); renderTranslations(); renderPlot();
   if (!opts.silent) reward(known.map(t => index.get(t.w)));
 }
 
+function queryText() {
+  return (state.queryIds || []).map((q, k) => (k ? (q.sign < 0 ? " − " : " + ") : (q.sign < 0 ? "− " : "")) + label(q.i)).join("");
+}
+function setLang(lang, rerender = true) {
+  state.lang = lang;
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  if (rerender && state.queryIds) { renderList(); renderTranslations(); renderPlot(); }
+}
+document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
 function renderList() {
+  state.query = queryText();
   $("target").textContent = state.query;
   const max = Math.max(...state.neighbors.map(n => n[1]), 0.0001);
   $("nn").innerHTML = "";
   state.neighbors.forEach(([i, s], r) => {
     const li = document.createElement("li");
-    li.innerHTML = `<button type="button" class="row" style="--c:${NEAR_COLORS[r]}" title="Look up ${esc(words[i])}">
+    li.innerHTML = `<button type="button" class="row" style="--c:${NEAR_COLORS[r]}" title="Look up ${esc(label(i))}">
         <span class="rank">${r + 1}</span>
-        <span><span class="word">${esc(words[i])}</span><span class="bar"><i style="width:${Math.max(0, s / max) * 100}%"></i></span></span>
+        <span><span class="word" lang="${state.lang}">${esc(label(i))}</span><span class="alt">${esc(otherLabel(i))}</span><span class="bar"><i style="width:${Math.max(0, s / max) * 100}%"></i></span></span>
         <span class="sim">${s.toFixed(3)}</span></button>`;
-    li.querySelector("button").addEventListener("click", () => run(words[i]));
+    li.querySelector("button").addEventListener("click", () => run(words[i], { keepLang: true }));
     $("nn").appendChild(li);
   });
 }
@@ -398,7 +440,7 @@ function renderTranslations() {
     const tr = document.createElement("tr");
     tr.style.setProperty("--c", NEAR_COLORS[r]);
     tr.innerHTML = `<td lang="en"><button type="button">${esc(t.en)}</button></td><td lang="es">${esc(t.es)}</td>`;
-    tr.querySelector("button").addEventListener("click", () => run(words[i]));
+    tr.querySelector("button").addEventListener("click", () => run(words[i], { keepLang: true }));
     $("trbody").appendChild(tr);
   });
 }
@@ -427,10 +469,10 @@ function renderPlot() {
     }
   }
   traces.push(
-    { ...xyz(nb), type: is3 ? "scatter3d" : "scatter", mode: "markers+text", text: nb.map(i => words[i]), hovertext: hover(nb), hoverinfo: "text",
+    { ...xyz(nb), type: is3 ? "scatter3d" : "scatter", mode: "markers+text", text: nb.map(i => label(i)), hovertext: hover(nb), hoverinfo: "text",
       customdata: nb, textposition: "top center", textfont: { ...font, size: 13, color: nb.map((_, r) => NEAR_COLORS[r]) },
       marker: { size: is3 ? 7 : 13, color: nb.map((_, r) => NEAR_COLORS[r]), line: { width: is3 ? 0 : 2, color: "#120a2a" } } },
-    { ...xyz(q), type: is3 ? "scatter3d" : "scatter", mode: "markers+text", text: q.map(i => words[i]), hovertext: hover(q), hoverinfo: "text",
+    { ...xyz(q), type: is3 ? "scatter3d" : "scatter", mode: "markers+text", text: q.map(i => label(i)), hovertext: hover(q), hoverinfo: "text",
       customdata: q, textposition: "bottom center", textfont: { ...font, size: 17, color: QUERY_COLOR },
       marker: { size: is3 ? 11 : 20, color: QUERY_COLOR, symbol: "diamond", line: { width: is3 ? 0 : 2, color: "#ffffff" } } },
   );
@@ -528,8 +570,8 @@ function reward(ids) {
   flyCoins(Math.ceil(gain / 5));
   const w = $("wallet"); w.classList.remove("bump"); void w.offsetWidth; w.classList.add("bump");
   const unlocked = BADGES.filter(b => before < b.n && wallet.found.size >= b.n);
-  const label = fresh.map(i => `<b>${esc(words[i])}</b>`).join(", ");
-  toast(`<span class="coin small" aria-hidden="true">S</span><span class="gain">+${gain}</span><span>New word: ${label}${rare ? " · rare find!" : ""}${unlocked.length ? ` · Badge unlocked: ${unlocked.map(b => b.name).join(", ")}` : ""}</span>`);
+  const newWords = fresh.map(i => `<b>${esc(label(i))}</b>`).join(", ");
+  toast(`<span class="coin small" aria-hidden="true">S</span><span class="gain">+${gain}</span><span>New word: ${newWords}${rare ? " · rare find!" : ""}${unlocked.length ? ` · Badge unlocked: ${unlocked.map(b => b.name).join(", ")}` : ""}</span>`);
 }
 let resetArmed = false, resetTimer;
 $("reset").addEventListener("click", () => {
@@ -545,7 +587,7 @@ renderWallet();
 
 run("fear", { silent: true });
 if (window.Plotly) {
-  $("plot").on("plotly_click", (e) => { const p = e.points && e.points[0]; if (p && p.customdata != null) run(words[p.customdata]); });
+  $("plot").on("plotly_click", (e) => { const p = e.points && e.points[0]; if (p && p.customdata != null) run(words[p.customdata], { keepLang: true }); });
 } else {
   $("plotnote").textContent = "The map library didn't load. The closest words and translations still work.";
 }
