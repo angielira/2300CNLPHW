@@ -322,7 +322,10 @@ const state = { dim: 2, k: 50, lang: "en", queryIds: null, neighbors: [], cloud:
 async function loadModel() {
   const [vocab, buf] = await Promise.all([
     fetch("vocab.json").then(r => { if (!r.ok) throw new Error("vocab.json " + r.status); return r.json(); }),
-    fetch("vectors.bin").then(r => { if (!r.ok) throw new Error("vectors.bin " + r.status); return r.arrayBuffer(); }),
+    // vectors.bin (int8); a base64 copy in vectors.txt is the fallback for hosts that don't serve binary files.
+    fetch("vectors.bin").then(r => { if (!r.ok) throw new Error("vectors.bin " + r.status); return r.arrayBuffer(); })
+      .catch(() => fetch("vectors.txt").then(r => { if (!r.ok) throw new Error("vectors " + r.status); return r.text(); })
+      .then(t => { const s = atob(t.trim()), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u.buffer; })),
   ]);
   M = vocab; V = M.words.length; D = M.dim;
   const q = new Int8Array(buf);
